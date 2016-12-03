@@ -1,6 +1,7 @@
-FROM alpine:edge
+FROM alpine:latest
 
-MAINTAINER Diego Hernandes <diego@hernandev.com>
+MAINTAINER Paul Schoenfelder <paulschoenfelder@gmail.com>
+# Modification France
 
 LABEL \
   # Location of the STI scripts inside the image
@@ -19,7 +20,7 @@ ENV \
   REFRESHED_AT=2016-04-7T14:27
 
 # Environments
-ENV TIMEZONE=America/Sao_Paulo \
+ENV TIMEZONE=Europe/Paris \
     PHP_MEMORY_LIMIT=256M \
     MAX_UPLOAD=100M \
     PHP_MAX_FILE_UPLOAD=200 \
@@ -29,8 +30,9 @@ RUN mkdir -p ${HOME} && \
     mkdir -p /usr/libexec/s2i && \
     adduser -s /bin/sh -u 1001 -G root -h ${HOME} -S -D default && \
     chown -R 1001:0 /opt/app-root && \
-    echo 'http://dl-4.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
-    echo "http://dl-4.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+    echo 'http://nl.alpinelinux.org/alpine/v3.5/community' >> /etc/apk/repositories && \
+    echo "http://nl.alpinelinux.org/alpine/v3.5/releases" >> /etc/apk/repositories && \
+    echo "http://nl.alpinelinux.org/alpine/v3.5/main" >> /etc/apk/repositories && \
     apk -U upgrade && \
     apk add --no-cache --update  \
         bash \
@@ -45,6 +47,25 @@ RUN mkdir -p ${HOME} && \
         lsof \
         patch \
         caddy \
+        # ajout
+        libcurl \
+        libxml2 \
+        libxslt \
+        openssl-dev \
+        zlib-dev \
+        make \
+        automake \ 
+        gcc \ 
+        g++ \ 
+        binutils-gold \
+        linux-headers \
+        paxctl \
+        libgcc \
+        libstdc++ \
+        python \
+        gnupg \
+        ncurses-libs \
+        # fin ajout
         ca-certificates \
         php7 \
         php7-xml \
@@ -62,6 +83,7 @@ RUN mkdir -p ${HOME} && \
         php7-dom \    
         php7-gd \
         php7-intl \
+        php7-imap \
         php7-mysqlnd \    
         php7-pdo \
         php7-pdo_mysql \
